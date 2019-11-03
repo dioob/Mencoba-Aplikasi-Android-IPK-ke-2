@@ -121,8 +121,9 @@ public class MainActivity extends AppCompatActivity {
                                     totalip += tip.get(n);
                                 if(counter>=2){
                                         totalip = totalip / 2;
+                                        DecimalFormat df = new DecimalFormat("#.##"); //program pembulatan decimal
                                         NilaiIP.setText("Nilai IP : " + totalip);
-                                }else{counter++;NilaiIP.setText("Nilai IP : "+totalip);}}
+                                }else{counter++;NilaiIP.setText("Nilai IP : "+df.format(totalip));}} //mengubah ke df.format(totalip)
 
                                 btnHitungIP.setEnabled(false);
                                 btnTampilData.setEnabled(false);
