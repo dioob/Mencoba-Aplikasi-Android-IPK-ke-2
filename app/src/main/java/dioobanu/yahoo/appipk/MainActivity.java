@@ -22,9 +22,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView TotalSKS, NilaiIP;
 
     ArrayList<Integer> mtsks= new ArrayList<>();
+    ArrayList<Integer> tip= new ArrayList<>();
     ArrayList<String> tambahArray = new ArrayList<>();
     ListView tampil;
-
+    int counter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,23 +48,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int nilaiAngka = 0;
-                final int finalNilaiAngka = nilaiAngka;
                 final String makul = mNamaMakul.getText().toString();
                 final String sks = mJumlahSKS.getText().toString();
                 final String nilai = mNilai.getText().toString();
                 final int hsks = Integer.parseInt(mJumlahSKS.getText().toString());
 
                 //Keterangan bobot: A = 4, B = 3, C = 2, D = 1, E = 0
-                /*if(nilai.equals("A") || nilai.equals("a")){nilaiAngka=4;}
-                else if (nilai.equals("B") || nilai.equals("b")){nilaiAngka=3;}
-                else if (nilai.equals("C") || nilai.equals("c")){nilaiAngka=2;}
-                else if (nilai.equals("D") || nilai.equals("d")){nilaiAngka=1;}
-                else if (nilai.equals("E") || nilai.equals("e")){nilaiAngka=0;}*/
+                switch (nilai) {
+                    case "A":
+                    case "a":
+                        nilaiAngka = 4;
+                        break;
+                    case "B":
+                    case "b":
+                        nilaiAngka = 3;
+                        break;
+                    case "C":
+                    case "c":
+                        nilaiAngka = 2;
+                        break;
+                    case "D":
+                    case "d":
+                        nilaiAngka = 1;
+                        break;
+                    case "E":
+                    case "e":
+                        nilaiAngka = 0;
+                        break;
+                }
 
 
                 if (tambahArray.contains(makul+"\t"+sks+"\t"+nilai)){
                     mtsks.contains(hsks);
-
+                    tip.contains(nilaiAngka);
                     Toast.makeText(getBaseContext(), "Berhasil menyimpan ke dalam bentuk Array.", Toast.LENGTH_LONG).show();
                 }
                 else if ((makul.equals("") && sks.equals("") && nilai.equals("")) || makul.equals("") || sks.equals("") || nilai.equals("")){
@@ -83,16 +100,30 @@ public class MainActivity extends AppCompatActivity {
                     });
 
 
+                    final int finalNilaiAngka = nilaiAngka;
                     btnHitungIP.setOnClickListener(new View.OnClickListener() {
                         @SuppressLint("SetTextI18n")
                         @Override
                         public void onClick(View v) {
                             int sum=0;
+                            double ip=0;
+                            double totalip = 0;
                             mtsks.add(hsks);
+                            tip.add(finalNilaiAngka);
+
+
                             //Hitung total jumlah SKS
                             for (int i=0; i<mtsks.size(); i++){
                                 sum += mtsks.get(i);
                                 TotalSKS.setText("Total SKS : "+sum);
+
+                                for (int n = 0; n < tip.size(); n++) {
+                                    totalip += tip.get(n);
+                                if(counter>=2){
+                                        totalip = totalip / 2;
+                                        NilaiIP.setText("Nilai IP : " + totalip);
+                                }else{counter++;NilaiIP.setText("Nilai IP : "+totalip);}}
+
                                 btnHitungIP.setEnabled(false);
                                 btnTampilData.setEnabled(false);
                                 btnSimpanArray.setEnabled(true);
@@ -118,7 +149,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
 
 }
